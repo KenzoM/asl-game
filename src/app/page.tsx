@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { db } from "@/app/firebaseConfig";
 import { getDoc, collection, getDocs, setDoc, doc } from "firebase/firestore";
-
+import ThemeTiles from "@/components/ThemeTiles";
 interface ASLTheme {
   id: string;
   description: string;
@@ -38,24 +37,17 @@ const Home = () => {
 
   return (
     <main className="flex flex-col ">
-      <h1 className="text-center">Hello world!</h1>
+      <h1 className="text-center text-4xl pt-12">ASL Game</h1>
       <div className="container">
         {aslThemes.length > 0 &&
           aslThemes.map((theme) => {
             return (
-              <div key={theme.title} className="item">
-                <header>
-                  <h2>{theme.title}</h2>
-                </header>
-                <div className="theme-image">
-                  <Image
-                    src={theme.image}
-                    alt={theme.title}
-                    fill
-                    sizes="(max-width:768px) 100vw, 700px"
-                  />
-                </div>
-              </div>
+              <ThemeTiles
+                key={theme.id}
+                id={theme.id}
+                title={theme.title}
+                image={theme.image}
+              />
             );
           })}
       </div>

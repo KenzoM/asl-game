@@ -43,10 +43,10 @@ body {
 }
 
 .item {
-  padding: 0.5em;
+  padding: 0.3em;
   font-weight: 700;
   display: grid;
-  border: 2px solid skyblue;
+  border: 2px solid #194c61;
   cursor: pointer;
   box-shadow: 4px 7px 7px 0px black;
   border-radius: 10px;
@@ -65,19 +65,25 @@ body {
 
 header {
   display: flex;
-  width: 100%;
   height: 100%;
+}
+
+.tile-scenario {
+  display: flex;
   justify-content: center;
   align-items: center;
   background: #00000075;
   color: #fff;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 .theme-image {
   position: relative;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  /* border-radius: 10px; */
 }
 
 .item:hover {
