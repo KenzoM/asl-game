@@ -41,6 +41,9 @@ body {
   margin: 8% auto;
   gap: 1.5em;
 }
+.container:has(.item:hover) .item:not(:hover) {
+  filter: grayscale(50%) brightness(75%);
+}
 
 .item {
   padding: 0.3em;
@@ -50,13 +53,25 @@ body {
   cursor: pointer;
   box-shadow: 4px 7px 7px 0px black;
   border-radius: 10px;
-  transition: 400ms;
+  transition: filter 400ms;
   place-items: center;
+}
+
+.item:hover {
+  transform: scale(1.01);
 }
 
 .item > * {
   grid-column: 1 / -1;
   grid-row: 1/ -1;
+}
+
+.gradient-bg {
+  background-image: linear-gradient(
+    to right,
+    rgb(254, 134, 36),
+    rgb(62, 5, 52)
+  );
 }
 
 .item h2 {
@@ -78,9 +93,4 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-}
-
-.item:hover {
-  filter: grayscale(1.4);
-  transform: scale(1.01);
 }
