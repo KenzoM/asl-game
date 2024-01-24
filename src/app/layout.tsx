@@ -16,10 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
-      <footer className="flex text-white justify-center">
-        <p>Copyright &copy; 2024 ASL Game</p>
-      </footer>
+      <body className={inter.className}>
+        {children}
+        <footer className="flex text-white justify-center">
+          <p>Copyright &copy; 2024 ASL Game</p>
+        </footer>
+      </body>
     </html>
   );
 }
