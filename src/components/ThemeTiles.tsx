@@ -12,11 +12,11 @@ const ThemeTiles = ({ title, image, id }: ThemeTilesProps) => {
   return (
     <div key={title} className="item">
       <div className="theme-image">
-        <header>
+        <div className="flex h-full">
           <Link className="tile-scenario" href={`/scenario/${id}`}>
             <h2>{title}</h2>
           </Link>
-        </header>
+        </div>
         <Image
           src={image}
           alt={title}

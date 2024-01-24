@@ -37,7 +37,9 @@ const Home = () => {
 
   return (
     <main className="flex flex-col ">
-      <h1 className="text-center text-4xl pt-12">ASL Game</h1>
+      <header>
+        <h1 className="text-center text-4xl pt-12">ASL Game</h1>
+      </header>
       <div className="container">
         {aslThemes.length > 0 &&
           aslThemes.map((theme) => {
