@@ -6,7 +6,8 @@ interface ScenarioPageProps {
   };
 }
 
-const ScenarioPage = ({ params }: ScenarioPageProps) => {
+const ScenarioPage = async ({ params }: ScenarioPageProps) => {
+  await new Promise((r) => setTimeout(r, 1500));
   return (
     <div>
       <div>ScenarioPage</div>
