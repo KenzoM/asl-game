@@ -1,10 +1,13 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
-import { useAnimations, useGLTF } from "@react-three/drei";
+import React, { useRef, useEffect, useContext } from "react";
+import { useAnimations } from "@react-three/drei";
 import { GUI } from "lil-gui";
-import { Html } from "@react-three/drei";
+import {
+  AnimationContext,
+  AnimationContextType,
+} from "@/app/context/AnimationContext";
 
-import { useLoader } from "@react-three/fiber";
+import { useLoader, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 // @ts-ignore.
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
@@ -16,10 +19,9 @@ interface ModelProps {
 const Model = ({ url }: ModelProps) => {
   const ref = useRef<THREE.Mesh>(null);
   const gltf = useLoader(GLTFLoader, url);
-  const [isPlaying, setIsPlaying] = useState(true);
-
-  // const { scene, animations } = useGLTF(url);
-  // const { actions } = useAnimations(animations, ref);
+  const { isPlaying, setIsPlaying } = useContext(
+    AnimationContext
+  ) as AnimationContextType;
 
   useEffect(() => {
     // const gui = new GUI();
@@ -33,15 +35,36 @@ const Model = ({ url }: ModelProps) => {
     // gui.add(ref.current.rotation, "x").min(0).max(10).name("rotation X");
     // gui.add(ref.current.rotation, "y").min(0).max(10).name("rotation Y");
     // gui.add(ref.current.rotation, "z").min(0).max(10).name("rotation Z");
-    // if (actions["Take 001"]) {
-    //   gui.add(actions["Take 001"], "timeScale").min(0).max(2).name("Speed");
-    // }
-    // if (isPlaying) {
-    //   actions["Take 001"].play().paused = false;
-    // } else {
-    //   actions["Take 001"].play().paused = true;
-    // }
   }, []);
+
+  let mixer: THREE.AnimationMixer;
+  let action: THREE.AnimationAction | null = null;
+  useEffect(() => {
+    if (isPlaying && action) {
+      action.play();
+    } else {
+      if (action) {
+        action.clampWhenFinished = true;
+        action.timeScale = 0;
+      }
+    }
+  }, [isPlaying, action]);
+
+  if (gltf.animations.length) {
+    mixer = new THREE.AnimationMixer(gltf.scene);
+    const selectedAnimation = gltf.animations[0]; // Select the first animation
+    action = mixer.clipAction(selectedAnimation);
+    action.clampWhenFinished = true;
+    action.loop = THREE.LoopOnce;
+
+    mixer.addEventListener("finished", () => {
+      setIsPlaying(false);
+    });
+  }
+
+  useFrame((_, delta) => {
+    mixer?.update(delta);
+  });
 
   return (
     <mesh
