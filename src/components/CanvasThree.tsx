@@ -10,7 +10,6 @@ const CanvasThree = ({ children }: { children: ReactNode }) => {
         style={{
           width: "100%",
           height: "50vh",
-          // maxWidth: "430px",
           border: "1px dashed red",
         }}
         camera={{

@@ -8,6 +8,7 @@ interface ThemeTilesProps {
   id: string;
 }
 
+//TODO: this should be reusable and not only depend on theme..
 const ThemeTiles = ({ title, image, id }: ThemeTilesProps) => {
   return (
     <div key={title} className="item">

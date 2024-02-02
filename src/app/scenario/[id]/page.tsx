@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   doc,
   collection,
@@ -15,9 +16,18 @@ interface ScenarioPageProps {
   };
 }
 
-interface subCollectionProps {
+interface OptionProps {
+  imageUrl: string;
+  text: string;
+}
+
+interface QuestionProps {
   id: string;
-  data: DocumentData;
+  data: {
+    questionText: string;
+    options: OptionProps[];
+    correctAnswer: string;
+  };
 }
 
 const ScenarioPage = async ({ params }: ScenarioPageProps) => {
@@ -35,35 +45,65 @@ const ScenarioPage = async ({ params }: ScenarioPageProps) => {
     }
   };
 
-  const getMultipleChoices = async () => {
+  const getQuestions = async () => {
     try {
       const docRef = doc(db, params.id, `${params.id}-id`);
       const subColQuerySnapshot = await getDocs(
         collection(docRef, "questions")
       );
-      const subCollections = [] as subCollectionProps[];
+      const subCollections = [] as QuestionProps[];
       subColQuerySnapshot.forEach((doc) => {
-        subCollections.push({ id: doc.id, data: doc.data() });
+        subCollections.push({
+          id: doc.id,
+          data: doc.data() as QuestionProps["data"],
+        });
       });
       return subCollections;
     } catch (error) {
-      console.error(`Error in getMultipleChoices: ${error}`);
+      console.error(`Error in getQuestions: ${error}`);
     }
   };
 
-  const responses = await Promise.all([getMultipleChoices(), getModelData()]);
+  const responses = await Promise.all([getQuestions(), getModelData()]);
 
-  const [multipleChoicesData, modeldata] = responses;
+  const [questionsData, modeldata] = responses;
 
-  if (!modeldata) return null;
+  if (!modeldata || !questionsData) return null;
+
+  const renderMultipleChoices = () => {
+    const firstQuestion = questionsData[0];
+
+    const { questionText, options } = firstQuestion.data;
+
+    const optionRender = options.map((option) => {
+      return (
+        <div key={option.text}>
+          <Image
+            src={option.imageUrl}
+            alt={option.text}
+            width={200}
+            height={200}
+            className="h-full w-full"
+          />
+        </div>
+      );
+    });
+
+    return optionRender;
+  };
 
   return (
-    <div className="flex flex-col" style={{ maxWidth: "450px" }}>
-      <h1>{modeldata.title}</h1>
-      <div>ScenarioPage</div>
+    <div className="flex flex-col">
+      <div className="text-center">
+        <h1>{modeldata.title}</h1>
+        <div>ScenarioPage</div>
+      </div>
       <CanvasThree>
         <Model url={modeldata.animation} />
       </CanvasThree>
+      <div className="grid grid-cols-2 gap-4 p-2">
+        {renderMultipleChoices()}
+      </div>
     </div>
   );
 };

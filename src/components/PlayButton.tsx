@@ -17,7 +17,7 @@ const PlayButton: React.FC = () => {
 
   return (
     <button
-      className="bg-white text-black border rounded"
+      className="bg-white text-black border rounded w-1/2"
       onClick={handleClick}
     >
       {isPlaying ? "Pause" : "Play"}
