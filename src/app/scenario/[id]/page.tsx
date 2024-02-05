@@ -93,7 +93,7 @@ const ScenarioPage = async ({ params }: ScenarioPageProps) => {
   };
 
   return (
-    <div className="flex flex-col">
+    <main className="flex flex-col">
       <div className="text-center">
         <h1>{modeldata.title}</h1>
         <div>ScenarioPage</div>
@@ -104,7 +104,7 @@ const ScenarioPage = async ({ params }: ScenarioPageProps) => {
       <div className="grid grid-cols-2 gap-4 p-2">
         {renderMultipleChoices()}
       </div>
-    </div>
+    </main>
   );
 };
 
