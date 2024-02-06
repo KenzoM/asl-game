@@ -1,20 +1,21 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
   Button,
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
 } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
 
 const NavbarUI = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const pathname = usePathname();
   const menuItems = ["Profile", "My Settings", "Log Out"];
 
   return (
@@ -25,12 +26,14 @@ const NavbarUI = () => {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">ASL Game</p>
+          <Link href="/">
+            <p className="font-bold text-inherit">ASL Game</p>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem isActive>
+        <NavbarItem isActive={pathname.includes("scenario")}>
           <Link href="#" aria-current="page">
             Scenarios
           </Link>
@@ -51,7 +54,7 @@ const NavbarUI = () => {
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
               color={
-                index === 2
+                index === 0
                   ? "primary"
                   : index === menuItems.length - 1
                   ? "danger"
@@ -59,7 +62,6 @@ const NavbarUI = () => {
               }
               className="w-full"
               href="#"
-              size="lg"
             >
               {item}
             </Link>
