@@ -15,14 +15,7 @@ const Home = () => {
         {aslThemes &&
           aslThemes.length > 0 &&
           aslThemes.map((theme) => {
-            return (
-              <ThemeTiles
-                key={theme.id}
-                id={theme.id}
-                title={theme.title}
-                image={theme.image}
-              />
-            );
+            return <ThemeTiles key={theme.id} themeDetails={theme} />;
           })}
       </div>
     </main>

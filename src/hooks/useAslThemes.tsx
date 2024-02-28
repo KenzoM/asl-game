@@ -2,22 +2,23 @@ import { useState, useEffect } from "react";
 import { db } from "@/app/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 
-interface ASLTheme {
+export interface ASLThemeProps {
   id: string;
   description: string;
   image: string;
   level: number;
   title: string;
+  isLocked: boolean;
 }
 const useASLThemes = () => {
-  const [aslThemes, setAslThemes] = useState<ASLTheme[]>([]);
+  const [aslThemes, setAslThemes] = useState<ASLThemeProps[]>([]);
 
   const getASLTheme = async () => {
     const themesCollection = collection(db, "themes");
     const themeDoc = await getDocs(themesCollection);
-    const asls: ASLTheme[] = await Promise.all(
+    const asls: ASLThemeProps[] = await Promise.all(
       themeDoc.docs.map(async (sourceDoc) => {
-        const theme: ASLTheme = sourceDoc.data() as ASLTheme;
+        const theme: ASLThemeProps = sourceDoc.data() as ASLThemeProps;
         return theme;
       })
     );
