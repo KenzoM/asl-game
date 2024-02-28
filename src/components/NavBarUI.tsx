@@ -16,32 +16,42 @@ import { usePathname } from "next/navigation";
 const NavbarUI = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-  const menuItems = ["Profile", "My Settings", "Log Out"];
+  const mobileMenuItems = [
+    {
+      url: "/",
+      urlLabel: "Home",
+    },
+    {
+      url: "/about",
+      urlLabel: "About",
+    },
+    {
+      url: "/",
+      urlLabel: "Sign up",
+    },
+  ];
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
-      <NavbarContent>
+    <Navbar isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
+      <NavbarContent style={{ justifyContent: "flex-end" }}>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
+        <NavbarBrand className="sm:flex hidden">
           <Link href="/">
-            <p className="font-bold text-inherit">ASL Game</p>
+            <p className="font-bold text-inherit hidden sm:flex gap-">
+              ASL Game
+            </p>
           </Link>
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className="hidden sm:flex gap-4" justify="end">
         <NavbarItem isActive={pathname.includes("scenario")}>
-          <Link href="#" aria-current="page">
-            Scenarios
+          <Link href="/about" aria-current="page">
+            About
           </Link>
-        </NavbarItem>
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
         </NavbarItem>
         <NavbarItem>
           <Button as={Link} color="primary" href="#" variant="flat">
@@ -50,20 +60,17 @@ const NavbarUI = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="pt-5">
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
+        {mobileMenuItems.map((item, index) => (
+          <NavbarMenuItem
+            className="text-right px-6"
+            key={`${item.urlLabel}-${index}`}
+          >
             <Link
-              color={
-                index === 0
-                  ? "primary"
-                  : index === menuItems.length - 1
-                  ? "danger"
-                  : "foreground"
-              }
               className="w-full"
-              href="#"
+              href={item.url}
+              onClick={() => setIsMenuOpen(false)}
             >
-              {item}
+              {item.urlLabel}
             </Link>
           </NavbarMenuItem>
         ))}

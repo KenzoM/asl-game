@@ -2,7 +2,7 @@
 import { ReactNode, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { AnimationProvider } from "@/app/context/AnimationContext";
-import PlayButton from "./PlayButton";
+import PlayButton from "@/components/PlayButton";
 import Loading from "@/components/Loading";
 
 const CanvasThree = ({ children }: { children: ReactNode }) => {
