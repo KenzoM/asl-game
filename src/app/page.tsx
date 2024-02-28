@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <main className="flex flex-col ">
       <header>
-        <h1 className="text-center text-4xl pt-12">ASL Game</h1>
+        <h1 className="text-center text-4xl pt-12">Welcome</h1>
       </header>
 
       <div className="container">
